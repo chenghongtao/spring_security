@@ -1,0 +1,12 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /security
+
+#spring:
+#  security:
+#    user:
+#      name: chenghongtao
+#      password: chenghongtao
+resources:
+  static-locations: ["/templates/","/static/"]
