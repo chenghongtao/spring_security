@@ -8,5 +8,4 @@ server:
 #    user:
 #      name: chenghongtao
 #      password: chenghongtao
-resources:
-  static-locations: ["/templates/","/static/"]
+
