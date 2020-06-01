@@ -2,24 +2,31 @@ package com.cht.spring.security.model;
 
 public class User {
 
-    private String username;
+    private String name;
 
-    private String password;
+    private String passwd;
 
-
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswd() {
+        return passwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", passwd='" + passwd + '\'' +
+                '}';
     }
 }

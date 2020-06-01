@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 /**
  * spring security 配置类
@@ -44,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        //前后端不分离的情况
          http
          .authorizeRequests()
                  //所有的请求都需要经过验证
@@ -51,13 +54,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  .and()
                  //表单配置
                  .formLogin()
-                 //配置登录页面
-                 .loginPage("/login.html")
+                 //配置登录页面，同时也是配置了登录接口也是/login.html，登录页面是get请求，登录接口是post请求
+                 .loginPage("/login_my.html")
+                 //也可以指定单独的登录接口
+                 .loginProcessingUrl("/login/doLogin")
+                 //指定登录用户名参数为name，默认为username
+                 .usernameParameter("name")
+                 //指定密码参数名称为passwd，默认为passowrd
+                 .passwordParameter("passwd")
+                 //登陆成功转发的路径
+                 //.successForwardUrl("/login/success")
+                 //登录成功，重定向到某个页面，和successForwardUrl只用定义一个
+                 .defaultSuccessUrl("/login/redirect")
+                 //定义失败转发的url
+                 //.failureForwardUrl("/login/fail")
+                 //定义失败重定向的url,和failureForwardUrl，定义一个即可
+                 .failureUrl("/login/failredirect")
                  //表示上个and之后定义的不需要拦截, 登录相关的页面不要拦截
+                 .permitAll()
+                 .and()
+                 //定义退出相关信息
+                 .logout()
+                 //定义退出路径为logout，默认为logout，也可自己指定，注销登录的请求是get请求
+                 .logoutUrl("/security/logout")
+                 //如果是post请求，则需要设置以下内容
+                 //.logoutRequestMatcher(new RegexRequestMatcher("/security/logout","POST"))
+                 //指定注销成功跳转的路径为登录页
+                 .logoutSuccessUrl("/login_my.html")
+                 //让session失效，默认为true
+                 .invalidateHttpSession(true)
+                 //清除认证信息,默认也是清除的
+                 .clearAuthentication(true)
                  .permitAll()
                  .and()
                  //关闭csrf
                  .csrf().disable();
+
+         //前后端分离的情况使用successHandler和failHandler
     }
 
     /**
