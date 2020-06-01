@@ -172,7 +172,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  .and()
                  //定义退出相关信息
                  .logout()
-                //定义退出路径为/logout，默认为logout，也可自己指定，注销登录的请求是get请求
+                //定义退出路径为/out,但是访问路径为http://localhost:8888/security/out，默认为logout，也可自己指定，注销登录的请求是get请求
                 .logoutUrl("/out")
 
                 //定义退出成功后的，给前端返回数据
@@ -190,7 +190,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 //关闭csrf
-                .csrf().disable();
+                .csrf().disable().
+                //处理未登录时，用户访问到需要登录才能访问的数据，需要将用户引导到登录页面，但是后端只是给前端返回json，则需要返回固定内容的json
+                exceptionHandling().authenticationEntryPoint((request,response,authException)->{
+                     response.setContentType("application/json;charset=UTF-8");
+                     Writer out=response.getWriter();
+                     out.write("Not logged in yet, please log in first ");
+                     out.flush();
+                     out.close();
+                 });
 
     }
 
