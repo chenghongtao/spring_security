@@ -192,6 +192,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //关闭csrf
                 .csrf().disable().
                 //处理未登录时，用户访问到需要登录才能访问的数据，需要将用户引导到登录页面，但是后端只是给前端返回json，则需要返回固定内容的json
+                //如果不添加以下代码，则没有登录，直接跳转到登录页面
                 exceptionHandling().authenticationEntryPoint((request,response,authException)->{
                      response.setContentType("application/json;charset=UTF-8");
                      Writer out=response.getWriter();
