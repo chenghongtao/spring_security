@@ -3,9 +3,37 @@ server:
   servlet:
     context-path: /security
 
-#spring:
+spring:
+  #----------------security----------------------
 #  security:
 #    user:
-#      name: chenghongtao
 #      password: chenghongtao
+#      name: chenghongtao
+  #-------------------mysql---------------------
+  datasource:
+    name: test
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.2.10:3306/test
+    username: root
+    password: hadoop
+    # 使用c3p0数据源
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
 
+
+## 该配置节点为独立的节点
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.cht.spring.security.model  # 注意：对应实体类的路径

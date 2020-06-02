@@ -1,8 +1,7 @@
 package com.cht.spring.security.config;
 
+import com.cht.spring.security.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,7 @@ import java.io.Writer;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-   // private VerifyCodeFilter verifyCodeFilter;
+    private UserService userService;
 
     /**
      * 在java代码中配置用户名和密码
@@ -36,8 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("chenghongtao").roles("admin").password("$2a$10$5XnPBo0hqCNNO.0YaTxq5OZH7chsjUj/UDKb9y5aPHBey9FIGlIH2").
-                and().withUser("test").roles("user").password("$2a$10$InXN1Gcf2ESkhLGQU.WdLeXuyz53k29qY3MGdh/1K/gE0u1bFVyeG");
+//        auth.inMemoryAuthentication().withUser("chenghongtao").roles("admin").password("$2a$10$5XnPBo0hqCNNO.0YaTxq5OZH7chsjUj/UDKb9y5aPHBey9FIGlIH2").
+//                and().withUser("test").roles("user").password("$2a$10$InXN1Gcf2ESkhLGQU.WdLeXuyz53k29qY3MGdh/1K/gE0u1bFVyeG");
+          auth.userDetailsService(userService);
     }
 
     /**

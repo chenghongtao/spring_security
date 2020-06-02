@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cht.spring.security.mapper.UserMapper">
+
+   <!--一对多查询配置-->
+   <resultMap type="com.cht.spring.security.model.User" id="user">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="passwd" column="passwd"/>
+      <result property="accountNonExpired" column="accountNonExpired"/>
+      <result property="accountNonLocked" column="accountNonLocked"/>
+      <result property="credentialsNonExpired" column="credentialsNonExpired"/>
+      <result property="enabled" column="enabled"/>
+      <collection property="roles" ofType="com.cht.spring.security.model.Role" >
+         <id property="roleId" column="roleId"/>
+         <result property="roleNameZn" column="roleNameZn"/>
+         <result property="roleNameCn" column="roleNameCn"/>
+         <result property="userId" column="userId"/>
+      </collection>
+   </resultMap>
+
+   <select id="loadUserByUsername" parameterType="string" resultMap="user">
+      select
+         u.id,u.name,u.passwd,u.accountNonExpired,u.accountNonLocked,u.credentialsNonExpired,u.enabled,
+         r.roleid roleId,r.roleNameZn,r.roleNameCn,r.userId
+      from user u left join role  r
+      on u.id=r.userId
+      where u.name=#{userName}
+   </select>
+
+   <!-- userGeneratedKeys和keyProperty属性可以让插入后对象获得本身自己的id-->
+   <insert id="insertUser" parameterType="com.cht.spring.security.model.User" useGeneratedKeys="true" keyProperty="id">
+     insert into user (name,passwd,accountNonExpired,accountNonLocked,credentialsNonExpired,enabled)
+     values(#{name},#{passwd},#{accountNonExpired},#{accountNonLocked},#{credentialsNonExpired},#{enabled})
+   </insert>
+</mapper>
