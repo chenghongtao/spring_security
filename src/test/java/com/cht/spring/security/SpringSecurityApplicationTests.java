@@ -3,19 +3,23 @@ package com.cht.spring.security;
 import com.cht.spring.security.mapper.UserMapper;
 import com.cht.spring.security.model.Role;
 import com.cht.spring.security.model.User;
+import com.cht.spring.security.service.UserService;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-class SpringSecurityApplicationTests {
+@RunWith(SpringRunner.class)
+public class SpringSecurityApplicationTests {
 
     @Autowired
-    private UserMapper mapper;
+    private UserService service;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -40,11 +44,11 @@ class SpringSecurityApplicationTests {
 
         //保存到数据库
         //userDao.save(u1);
-        mapper.insertUser(u1);
+        service.insertUser(u1);
 
         User u2 = new User();
-        u2.setName(encoder.encode("test"));
-        u2.setPasswd("test");
+        u2.setPasswd(encoder.encode("test"));
+        u2.setName("test");
         u2.setAccountNonExpired(true);
         u2.setAccountNonLocked(true);
         u2.setCredentialsNonExpired(true);
@@ -56,7 +60,7 @@ class SpringSecurityApplicationTests {
         rs2.add(r2);
         u2.setRoles(rs2);
 
-        mapper.insertUser(u2);
+        service.insertUser(u2);
     }
 
 }

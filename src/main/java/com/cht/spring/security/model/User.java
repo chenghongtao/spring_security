@@ -16,7 +16,7 @@ public class User implements UserDetails {
     /**
      * 主键
      */
-    private String id;
+    private int id;
 
     /**
      * 用户名称
@@ -62,11 +62,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -103,7 +103,7 @@ public class User implements UserDetails {
     }
 
     /**
-     * 该方法用于返回用户角色信息
+     * 该方法用于返回用户所有角色信息
      * @return
      */
     @Override
@@ -118,31 +118,31 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.passwd;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.name;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return this.accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return this.accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return this.credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.enabled;
     }
 }

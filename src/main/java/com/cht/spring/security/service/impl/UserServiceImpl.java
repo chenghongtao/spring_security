@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService {
     public void insertUser(User user) {
 
         //当插入用户成功的时候，会返回自己的id
-        int userId=userMapper.insertUser(user);
+        userMapper.insertUser(user);
 
         if(!user.getRoles().isEmpty()) {
 
             //给每个角色赋值userid属性
             user.getRoles().forEach(ele -> {
-                ele.setUserId(userId);
+                ele.setUserId(user.getId());
             });
 
             roleMapper.batchInsetRole(user.getRoles());

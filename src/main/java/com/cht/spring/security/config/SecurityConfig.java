@@ -121,7 +121,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  //指定密码参数名称为passwd，默认为passowrd
                  .passwordParameter("passwd")
 
-
                  //登陆成功后给前端返回的数据
                  .successHandler((request,response,authentication)->{
                      System.out.println("-------------------------"+authentication.getPrincipal());
@@ -131,7 +130,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                      out.flush();
                      out.close();
                  })
-
 
                  //登陆失败后给前端返回的数据
                  .failureHandler((request,response,exception)->{
