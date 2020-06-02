@@ -6,24 +6,16 @@ import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.Writer;
 
 /**
@@ -111,6 +103,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //前后端分离的情况使用successHandler和failHandler
                  http
          .authorizeRequests()
+                  //admin接口访问需要admin权限，但是admin权限包含user权限
+                  .antMatchers("/hello/admin/**").hasRole("admin")
+                 //user接口访问需要user权限
+                 .antMatchers("/hello/user/**").hasRole("user")
                  //所有的请求都需要经过验证
                  .anyRequest().authenticated()
                  .and()
@@ -213,5 +209,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //web.ignoring().antMatchers("/hello/*");
         //一般对于静态文件,可以不让走过滤器
         web.ignoring().antMatchers("/js/**", "/css/**","/images/**");
+    }
+
+
+    /**
+     * 配置角色继承关系，有了这个配置，admin才能是最大用户
+     * @return
+     */
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+        hierarchy.setHierarchy("ROLE_admin > ROLE_user");
+        return hierarchy;
     }
 }
