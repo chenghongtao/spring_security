@@ -33,7 +33,12 @@ spring:
     maxOpenPreparedStatements: 20
 
 
-## 该配置节点为独立的节点
+## ------------------------该配置节点为独立的节点--------------------------------------------
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
   type-aliases-package: com.cht.spring.security.model  # 注意：对应实体类的路径
+
+##----------------------logger----------------------------------
+logging:
+  level:
+    com.cht.spring.security.mapper : debug
