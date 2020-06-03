@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    @Override
+    public int updateInfo(User user) {
+        return 0;
+    }
 }

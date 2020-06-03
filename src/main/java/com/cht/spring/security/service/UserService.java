@@ -7,4 +7,7 @@ public interface UserService extends UserDetailsService {
 
     //注册用户
     void insertUser(User user);
+
+    //更新用户信息
+    int updateInfo(User user);
 }
